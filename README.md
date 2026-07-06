@@ -28,33 +28,6 @@ Offline storage: IndexedDB + Workbox (Background Sync)
 Hardware POS: Web USB API / Web Serial API + ESC/POS
 Facturación electrónica: Aliado (integrador habilitado DIAN)
 
-Estructura del repositorio
-
-posnova/
-├── posnova-backend/          # API REST Spring Boot
-│   ├── src/
-│   │   ├── main/java/com/gesnnova/posnova/
-│   │   │   ├── config/       # Seguridad, multi-tenant, CORS
-│   │   │   ├── domain/       # Entidades JPA
-│   │   │   ├── repository/   # Repositorios Spring Data
-│   │   │   ├── service/      # Lógica de negocio
-│   │   │   ├── controller/   # Endpoints REST
-│   │   │   └── dto/          # Objetos de transferencia
-│   │   └── resources/
-│   └── pom.xml
-│
-├── posnova-frontend/         # PWA React
-│   ├── src/
-│   │   ├── components/       # Componentes UI
-│   │   ├── pages/            # Pantallas del POS
-│   │   ├── services/         # Llamadas a la API
-│   │   ├── db/               # Lógica IndexedDB
-│   │   └── sw/               # Service Worker
-│   └── package.json
-│
-└── README.md
-
-
 Módulos del sistema
 
 Fase 1 — Núcleo POS (actual)
