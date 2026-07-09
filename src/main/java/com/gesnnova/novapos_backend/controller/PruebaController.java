@@ -1,0 +1,34 @@
+package com.gesnnova.novapos_backend.controller;
+
+import com.gesnnova.novapos_backend.config.JwtUtil;
+import com.gesnnova.novapos_backend.config.TenantContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Controlador de prueba para verificar el tenant activo.
+ */
+
+@RestController
+@RequestMapping("/api/prueba")
+public class PruebaController {
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @GetMapping("/tenant")
+    public String getTenant() {
+        return "Tenant activo: " + TenantContext.getTenantId();
+    }
+
+    @GetMapping("/token")
+    public String getTokenPrueba() {
+        return jwtUtil.generateToken(
+                "cajero@panaderia.com",
+                "panaderia_prueba",
+                "CAJERO"
+        );
+    }
+}
