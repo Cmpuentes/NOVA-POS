@@ -20,7 +20,7 @@ Sesiones de caja — apertura y cierre de caja con cuadre de efectivo, compatibl
 
 Stack tecnológico
 
-Backend: Java 17 + Spring Boot 3
+Backend: Java 21 + Spring Boot 3
 Base de datos: PostgreSQL 15 (schema por tenant)
 Autenticación: Spring Security + JWT
 Frontend: React + Vite PWA Plugin
