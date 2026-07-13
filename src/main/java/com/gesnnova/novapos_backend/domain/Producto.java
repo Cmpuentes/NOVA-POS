@@ -58,6 +58,9 @@ public class Producto {
         this.createdAt = LocalDateTime.now();
     }
 
+    @Column(name = "imagen_url")
+    private String imagenUrl;
+
     @OneToMany(mappedBy = "producto")
     private java.util.List<ItemVenta> itemsVenta;
 }

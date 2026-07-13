@@ -57,4 +57,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Venta> ventas;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<RefreshToken> refreshTokens;
 }
