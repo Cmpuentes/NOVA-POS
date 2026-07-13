@@ -1,0 +1,36 @@
+spring.application.name=novapos-backend
+
+# ── Servidor ──────────────────────────────────────────
+server.port=8080
+
+# ── Base de datos ─────────────────────────────────────
+# Usar valores directos, no variables de entorno en desarrollo local
+spring.datasource.url=jdbc:postgresql://localhost:5432/posnova?sslmode=disable&TimeZone=America/Bogota&currentSchema=public
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# ── JPA / Hibernate ───────────────────────────────────
+# Cambiar a 'validate' cuando salga a producción
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.jdbc.time_zone=America/Bogota
+
+# ── Zona horaria ──────────────────────────────────────
+spring.mvc.format.date-time=iso
+server.tomcat.uri-encoding=UTF-8
+
+# ── JWT ───────────────────────────────────────────────
+# Generar con: openssl rand -base64 64
+jwt.secret=
+jwt.expiration=86400000
+
+# ── Integrador Aliado ─────────────────────────────────
+aliado.api.url=
+aliado.api.token=
+aliado.api.codigo=
+
+# ── Multi-tenant ──────────────────────────────────────
+multitenancy.default-schema=public
