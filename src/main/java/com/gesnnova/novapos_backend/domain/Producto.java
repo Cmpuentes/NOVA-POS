@@ -46,7 +46,7 @@ public class Producto {
     private BigDecimal precioBase;
 
     @Column(name = "tipo_control_stock")
-    private String tiopoControlStock;
+    private String tipoControlStock;
 
     @Column(name = "activo", nullable = false)
     private boolean activo;
