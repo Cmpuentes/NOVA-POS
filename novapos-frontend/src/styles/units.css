@@ -1,0 +1,543 @@
+/* ==============================
+   PAGE
+============================== */
+
+.units-page {
+
+    padding:30px;
+
+    min-height:100%;
+
+    background:#f5f7fb;
+
+}
+
+
+/* ==============================
+   HEADER
+============================== */
+
+
+.units-header {
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.units-header h1 {
+
+    margin:0;
+
+    font-size:28px;
+
+    font-weight:800;
+
+    color:#1e293b;
+
+}
+
+
+
+
+.units-header button {
+
+
+    background:#16a34a;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 6px 15px rgba(22,163,74,.25);
+
+    transition:.25s;
+
+
+}
+
+
+
+.units-header button:hover {
+
+    background:#15803d;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+
+
+/* ==============================
+   GRID
+============================== */
+
+
+.units-container {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(260px,1fr));
+
+
+    gap:24px;
+
+
+}
+
+
+
+
+/* ==============================
+   CARD
+============================== */
+
+
+.unit-card {
+
+
+    background:white;
+
+
+    border-radius:18px;
+
+
+    padding:22px;
+
+
+    border:1px solid #eef2f7;
+
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.08);
+
+
+    transition:.25s;
+
+
+}
+
+
+
+.unit-card:hover {
+
+
+    transform:translateY(-5px);
+
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.12);
+
+
+}
+
+
+
+
+.unit-info {
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+
+}
+
+
+
+
+.unit-info h3 {
+
+
+    margin:0;
+
+
+    font-size:20px;
+
+
+    font-weight:800;
+
+
+    color:#1e293b;
+
+
+}
+
+
+
+
+.unit-info p {
+
+
+    margin:0;
+
+
+    color:#64748b;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+/* ==============================
+   ACTION BUTTONS
+============================== */
+
+
+.unit-actions {
+
+
+    display:flex;
+
+
+    gap:10px;
+
+
+    margin-top:18px;
+
+
+}
+
+
+
+
+.unit-actions button {
+
+
+    flex:1;
+
+
+    padding:10px;
+
+
+    border:none;
+
+
+    border-radius:10px;
+
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+    transition:.2s;
+
+
+}
+
+
+
+.unit-edit-btn {
+
+
+    background:#e0f2fe;
+
+
+    color:#0369a1;
+
+
+}
+
+
+
+.unit-edit-btn:hover {
+
+
+    background:#bae6fd;
+
+
+}
+
+
+
+
+.unit-delete-btn {
+
+
+    background:#fee2e2;
+
+
+    color:#dc2626;
+
+
+}
+
+
+
+.unit-delete-btn:hover {
+
+
+    background:#fecaca;
+
+
+}
+
+
+
+
+
+/* ==============================
+   MODAL
+============================== */
+
+
+.unit-modal-overlay {
+
+
+    position:fixed;
+
+    inset:0;
+
+
+    background:
+    rgba(15,23,42,.55);
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    z-index:9999;
+
+
+}
+
+
+
+
+.unit-modal-content {
+
+
+    width:420px;
+
+
+    background:white;
+
+
+    border-radius:20px;
+
+
+    padding:30px;
+
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:18px;
+
+
+    animation:modalShow .25s ease;
+
+
+}
+
+
+
+@keyframes modalShow {
+
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(-20px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+
+}
+
+
+
+
+.unit-modal-content h2 {
+
+
+    margin:0 0 10px;
+
+
+    font-size:24px;
+
+
+    font-weight:800;
+
+
+    color:#0f172a;
+
+
+}
+
+
+
+
+
+.unit-modal-content input {
+
+
+    width:100%;
+
+
+    padding:13px;
+
+
+    border-radius:10px;
+
+
+    border:1px solid #cbd5e1;
+
+
+    font-size:14px;
+
+
+    outline:none;
+
+
+}
+
+
+
+.unit-modal-content input:focus {
+
+
+    border-color:#3b9ae5;
+
+
+    box-shadow:
+    0 0 0 3px rgba(59,154,229,.15);
+
+
+}
+
+
+
+
+/* ==============================
+   MODAL BUTTONS
+============================== */
+
+
+.unit-modal-actions {
+
+
+    display:flex;
+
+
+    justify-content:flex-end;
+
+
+    gap:12px;
+
+
+    margin-top:15px;
+
+
+}
+
+
+
+
+.unit-modal-actions button {
+
+
+    padding:12px 20px;
+
+
+    border:none;
+
+
+    border-radius:12px;
+
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.unit-modal-actions button:first-child {
+
+
+    background:#f1f5f9;
+
+
+    color:#475569;
+
+
+}
+
+
+
+.unit-modal-actions button:last-child {
+
+
+    background:#16a34a;
+
+
+    color:white;
+
+
+}
+
+
+.unit-modal-actions button:last-child:hover {
+
+
+    background:#15803d;
+
+
+}
