@@ -9,10 +9,12 @@ import com.gesnnova.novapos_backend.dto.SesionCajaResponse;
 import com.gesnnova.novapos_backend.repository.CajaRepository;
 import com.gesnnova.novapos_backend.repository.SesionCajaRepository;
 import com.gesnnova.novapos_backend.repository.UsuarioRepository;
+import com.gesnnova.novapos_backend.repository.VentaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,9 @@ public class SesionCajaService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private VentaRepository ventaRepository;
 
     public SesionCajaResponse abrir(SesionCajaRequest request, UUID usuarioId) {
 
@@ -66,9 +71,18 @@ public class SesionCajaService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        // Calcular efectivo esperado correctamente
+        BigDecimal ventasEfectivo = ventaRepository
+                .sumVentasEfectivoBySesion(sesion.getId());
+
+        BigDecimal efectivoEsperado = sesion.getMontoApertura()
+                .add(ventasEfectivo != null ? ventasEfectivo : BigDecimal.ZERO);
+
+        BigDecimal diferencia = request.getMontoCierre().subtract(efectivoEsperado);
+
         sesion.setUsuarioCierre(usuario);
         sesion.setMontoCierre(request.getMontoCierre());
-        sesion.setDiferencia(request.getMontoCierre().subtract(sesion.getMontoApertura()));
+        sesion.setDiferencia(diferencia);
         sesion.setCerradaEn(LocalDateTime.now());
         sesion.setEstado("CERRADA");
 
