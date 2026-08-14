@@ -26,7 +26,7 @@ public class RolController {
     @Operation(summary = "Listar roles activos",
             description = "Devuelve todos los roles activos. Solo ADMINISTRADOR.")
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLES_GESTIONAR')")
     public ResponseEntity<List<RolResponse>> listar() {
         return ResponseEntity.ok(rolService.listarTodos());
     }
@@ -34,7 +34,7 @@ public class RolController {
     @Operation(summary = "Buscar rol por ID",
             description = "Devuelve un rol específico por su UUID. Solo ADMINISTRADOR.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLES_GESTIONAR')")
     public ResponseEntity<RolResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(rolService.buscarPorId(id));
     }
@@ -42,7 +42,7 @@ public class RolController {
     @Operation(summary = "Crear rol",
             description = "Crea un nuevo rol. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLES_GESTIONAR')")
     public ResponseEntity<RolResponse> crear(
             @Valid @RequestBody RolRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,7 +52,7 @@ public class RolController {
     @Operation(summary = "Actualizar rol",
             description = "Actualiza nombre y descripción de un rol. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLES_GESTIONAR')")
     public ResponseEntity<RolResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody RolRequest request) {
@@ -62,7 +62,7 @@ public class RolController {
     @Operation(summary = "Desactivar rol",
             description = "Desactiva un rol sin borrarlo. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLES_GESTIONAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         rolService.desactivar(id);
         return ResponseEntity.noContent().build();

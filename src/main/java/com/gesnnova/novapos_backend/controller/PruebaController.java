@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Controlador de prueba para verificar el tenant activo.
  */
@@ -37,7 +39,9 @@ public class PruebaController {
         return jwtUtil.generateToken(
                 "cajero@panaderia.com",
                 "panaderia_prueba",
-                "CAJERO"
+                "CAJERO",
+                List.of("VENTAS_CREAR", "VENTAS_VER", "CAJA_ABRIR", "CAJA_CERRAR",
+                        "PRODUCTOS_VER", "CLIENTES_VER", "CLIENTES_CREAR")
         );
     }
 }

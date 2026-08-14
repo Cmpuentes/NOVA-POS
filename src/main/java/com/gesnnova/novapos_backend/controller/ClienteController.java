@@ -26,7 +26,7 @@ public class ClienteController {
     @Operation(summary = "Listar clientes",
             description = "Devuelve todos los clientes activos.")
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CLIENTES_VER')")
     public ResponseEntity<List<ClienteResponse>> listar() {
         return ResponseEntity.ok(clienteService.listarTodos());
     }
@@ -34,7 +34,7 @@ public class ClienteController {
     @Operation(summary = "Buscar cliente por ID",
             description = "Devuelve un cliente específico por su UUID.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CLIENTES_VER')")
     public ResponseEntity<ClienteResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(clienteService.buscarPorId(id));
     }
@@ -42,7 +42,7 @@ public class ClienteController {
     @Operation(summary = "Buscar cliente por número de documento",
             description = "El cajero busca al cliente por cédula o NIT al momento de pedir factura.")
     @GetMapping("/documento/{numeroDocumento}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CLIENTES_VER')")
     public ResponseEntity<ClienteResponse> buscarPorDocumento(
             @PathVariable String numeroDocumento) {
         return ResponseEntity.ok(clienteService.buscarPorDocumento(numeroDocumento));
@@ -51,7 +51,7 @@ public class ClienteController {
     @Operation(summary = "Crear cliente",
             description = "Crea un nuevo cliente. Disponible para CAJERO y ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CLIENTES_CREAR')")
     public ResponseEntity<ClienteResponse> crear(
             @Valid @RequestBody ClienteRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -61,7 +61,7 @@ public class ClienteController {
     @Operation(summary = "Actualizar cliente",
             description = "Actualiza los datos de un cliente. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CLIENTES_EDITAR')")
     public ResponseEntity<ClienteResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody ClienteRequest request) {
@@ -71,7 +71,7 @@ public class ClienteController {
     @Operation(summary = "Desactivar cliente",
             description = "Desactiva un cliente sin borrarlo. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CLIENTES_EDITAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         clienteService.desactivar(id);
         return ResponseEntity.noContent().build();

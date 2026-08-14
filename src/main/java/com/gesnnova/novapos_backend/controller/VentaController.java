@@ -28,7 +28,7 @@ public class VentaController {
     @Operation(summary = "Registrar venta",
             description = "Registra una venta completa con sus ítems y pagos. Disponible para CAJERO y ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('VENTAS_CREAR')")
     public ResponseEntity<VentaResponse> registrar(
             @Valid @RequestBody VentaRequest request,
             @AuthenticationPrincipal Usuario usuario) {
@@ -39,7 +39,7 @@ public class VentaController {
     @Operation(summary = "Listar ventas por sesión de caja",
             description = "Devuelve todas las ventas de una sesión de caja específica.")
     @GetMapping("/sesion/{sesionId}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('VENTAS_VER')")
     public ResponseEntity<List<VentaResponse>> listarPorSesion(
             @PathVariable UUID sesionId) {
         return ResponseEntity.ok(ventaService.listarPorSesion(sesionId));
@@ -48,7 +48,7 @@ public class VentaController {
     @Operation(summary = "Buscar venta por ID",
             description = "Devuelve el detalle completo de una venta con sus ítems y pagos.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('VENTAS_VER')")
     public ResponseEntity<VentaResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(ventaService.buscarPorId(id));
     }

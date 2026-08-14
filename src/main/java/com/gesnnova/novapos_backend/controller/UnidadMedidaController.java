@@ -24,7 +24,7 @@ public class UnidadMedidaController {
     @Operation(summary = "Listar unidades de medida",
             description = "Devuelve todas las unidades de medida disponibles. Requiere token JWT.")
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('UNIDADES_GESTIONAR') or hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<List<UnidadMedidaResponse>> listar() {
         return ResponseEntity.ok(unidadMedidaService.listarTodas());
     }
@@ -32,7 +32,7 @@ public class UnidadMedidaController {
     @Operation(summary = "Buscar unidad de medida por ID",
             description = "Devuelve una unidad de medida específica por su UUID.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('UNIDADES_GESTIONAR') or hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<UnidadMedidaResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(unidadMedidaService.buscarPorId(id));
     }
@@ -40,7 +40,7 @@ public class UnidadMedidaController {
     @Operation(summary = "Crear unidad de medida",
             description = "Crea una nueva unidad de medida. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('UNIDADES_GESTIONAR')")
     public ResponseEntity<UnidadMedidaResponse> crear(
             @Valid @RequestBody UnidadMedidaRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -50,7 +50,7 @@ public class UnidadMedidaController {
     @Operation(summary = "Actualizar unidad de medida",
             description = "Actualiza una unidad de medida existente. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('UNIDADES_GESTIONAR')")
     public ResponseEntity<UnidadMedidaResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody UnidadMedidaRequest request) {
@@ -60,7 +60,7 @@ public class UnidadMedidaController {
     @Operation(summary = "Eliminar unidad de medida",
             description = "Elimina una unidad de medida. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('UNIDADES_GESTIONAR')")
     public ResponseEntity<Void> eliminar(@PathVariable UUID id) {
         unidadMedidaService.eliminar(id);
         return ResponseEntity.noContent().build();

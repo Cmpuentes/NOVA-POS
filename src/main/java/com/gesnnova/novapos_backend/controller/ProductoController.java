@@ -26,7 +26,7 @@ public class ProductoController {
     @Operation(summary = "Listar productos activos",
             description = "Devuelve todos los productos activos con sus datos de categoría, impuesto y unidad de medida.")
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<List<ProductoResponse>> listar() {
         return ResponseEntity.ok(productoService.listarTodos());
     }
@@ -34,7 +34,7 @@ public class ProductoController {
     @Operation(summary = "Listar productos por categoría",
             description = "Devuelve los productos activos de una categoría específica.")
     @GetMapping("/categoria/{categoriaId}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<List<ProductoResponse>> listarPorCategoria(
             @PathVariable UUID categoriaId) {
         return ResponseEntity.ok(productoService.listarPorCategoria(categoriaId));
@@ -43,7 +43,7 @@ public class ProductoController {
     @Operation(summary = "Buscar producto por ID",
             description = "Devuelve un producto específico por su UUID.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<ProductoResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(productoService.buscarPorId(id));
     }
@@ -51,7 +51,7 @@ public class ProductoController {
     @Operation(summary = "Buscar producto por código de barras",
             description = "Busca un producto por su código. Se invoca cuando el lector de barras escanea un producto en caja.")
     @GetMapping("/codigo/{codigo}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<ProductoResponse> buscarPorCodigo(@PathVariable String codigo) {
         return ResponseEntity.ok(productoService.buscarPorCodigo(codigo));
     }
@@ -59,7 +59,7 @@ public class ProductoController {
     @Operation(summary = "Crear producto",
             description = "Crea un nuevo producto en el catálogo. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_CREAR')")
     public ResponseEntity<ProductoResponse> crear(
             @Valid @RequestBody ProductoRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -69,7 +69,7 @@ public class ProductoController {
     @Operation(summary = "Actualizar producto",
             description = "Actualiza los datos de un producto existente. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_EDITAR')")
     public ResponseEntity<ProductoResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody ProductoRequest request) {
@@ -79,7 +79,7 @@ public class ProductoController {
     @Operation(summary = "Desactivar producto",
             description = "Desactiva un producto sin borrarlo. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('PRODUCTOS_DESACTIVAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         productoService.desactivar(id);
         return ResponseEntity.noContent().build();

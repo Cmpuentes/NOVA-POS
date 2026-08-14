@@ -7,6 +7,7 @@ import com.gesnnova.novapos_backend.domain.Usuario;
 import com.gesnnova.novapos_backend.dto.AuthResponse;
 import com.gesnnova.novapos_backend.dto.LoginRequest;
 import com.gesnnova.novapos_backend.repository.RefreshTokenRepository;
+import com.gesnnova.novapos_backend.repository.RolPermisoRepository;
 import com.gesnnova.novapos_backend.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class AuthService {
+
+    @Autowired
+    private RolPermisoRepository rolPermisoRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -55,12 +60,20 @@ public class AuthService {
         tokensAnteriores.forEach(t -> t.setActivo(false));
         refreshTokenRepository.saveAll(tokensAnteriores);
 
-        // Generar tokens
+        // Cargar permisos del rol
+        List<String> permisos = rolPermisoRepository
+                .findByRolId(usuario.getRol().getId())
+                .stream()
+                .map(rp -> rp.getPermiso().getCodigo())
+                .collect(Collectors.toList());
+
+        // Generar access token con permisos
         String tenantId = TenantContext.getTenantId();
         String accessToken = jwtUtil.generateToken(
                 usuario.getEmail(),
                 tenantId,
-                usuario.getRol().getNombre()
+                usuario.getRol().getNombre(),
+                permisos
         );
 
         // Crear y guardar Refresh Token
@@ -99,13 +112,21 @@ public class AuthService {
             throw new RuntimeException("Refresh token expirado");
         }
 
-        // Generar nuevo Access Token
         Usuario usuario = refreshToken.getUsuario();
         String tenantId = TenantContext.getTenantId();
+
+        // Cargar permisos del rol
+        List<String> permisos = rolPermisoRepository
+                .findByRolId(usuario.getRol().getId())
+                .stream()
+                .map(rp -> rp.getPermiso().getCodigo())
+                .collect(Collectors.toList());
+
         String nuevoAccessToken = jwtUtil.generateToken(
                 usuario.getEmail(),
                 tenantId,
-                usuario.getRol().getNombre()
+                usuario.getRol().getNombre(),
+                permisos
         );
 
         return AuthResponse.builder()

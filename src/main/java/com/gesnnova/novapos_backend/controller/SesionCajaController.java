@@ -29,7 +29,7 @@ public class SesionCajaController {
     @Operation(summary = "Abrir sesión de caja",
             description = "Abre una nueva sesión de caja con el monto inicial de efectivo. El usuario que abre queda registrado automáticamente desde el token JWT.")
     @PostMapping("/abrir")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CAJA_ABRIR')")
     public ResponseEntity<SesionCajaResponse> abrir(
             @Valid @RequestBody SesionCajaRequest request,
             @AuthenticationPrincipal Usuario usuario) {
@@ -40,7 +40,7 @@ public class SesionCajaController {
     @Operation(summary = "Cerrar sesión de caja",
             description = "Cierra una sesión de caja con el monto final contado. Calcula automáticamente la diferencia.")
     @PutMapping("/{id}/cerrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CAJA_CERRAR')")
     public ResponseEntity<SesionCajaResponse> cerrar(
             @PathVariable UUID id,
             @Valid @RequestBody CierreCajaRequest request,
@@ -51,7 +51,7 @@ public class SesionCajaController {
     @Operation(summary = "Consultar sesión activa de una caja",
             description = "Devuelve la sesión actualmente abierta de una caja específica.")
     @GetMapping("/activa/{cajaId}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CAJA_ABRIR') or hasAuthority('CAJA_CERRAR')")
     public ResponseEntity<SesionCajaResponse> buscarSesionActiva(
             @PathVariable UUID cajaId) {
         return ResponseEntity.ok(sesionCajaService.buscarSesionActiva(cajaId));
@@ -60,7 +60,7 @@ public class SesionCajaController {
     @Operation(summary = "Listar sesiones por usuario",
             description = "Devuelve el historial de sesiones de caja de un usuario. Solo ADMINISTRADOR.")
     @GetMapping("/usuario/{usuarioId}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CAJA_VER_HISTORIAL')")
     public ResponseEntity<List<SesionCajaResponse>> listarPorUsuario(
             @PathVariable UUID usuarioId) {
         return ResponseEntity.ok(sesionCajaService.listarPorUsuario(usuarioId));

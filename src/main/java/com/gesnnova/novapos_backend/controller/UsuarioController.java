@@ -26,7 +26,7 @@ public class UsuarioController {
     @Operation(summary = "Listar usuarios",
             description = "Devuelve todos los usuarios del sistema. Solo ADMINISTRADOR.")
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('USUARIOS_GESTIONAR')")
     public ResponseEntity<List<UsuarioResponse>> listar() {
         return ResponseEntity.ok(usuarioService.listarTodos());
     }
@@ -34,7 +34,7 @@ public class UsuarioController {
     @Operation(summary = "Buscar usuario por ID",
             description = "Devuelve un usuario específico por su UUID. Solo ADMINISTRADOR.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('USUARIOS_GESTIONAR')")
     public ResponseEntity<UsuarioResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
@@ -42,7 +42,7 @@ public class UsuarioController {
     @Operation(summary = "Crear usuario",
             description = "Crea un nuevo usuario. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('USUARIOS_GESTIONAR')")
     public ResponseEntity<UsuarioResponse> crear(
             @Valid @RequestBody UsuarioRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,7 +52,7 @@ public class UsuarioController {
     @Operation(summary = "Actualizar usuario",
             description = "Actualiza los datos de un usuario. Si se envía password se actualiza, si no se deja igual. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('USUARIOS_GESTIONAR')")
     public ResponseEntity<UsuarioResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody UsuarioRequest request) {
@@ -62,7 +62,7 @@ public class UsuarioController {
     @Operation(summary = "Desactivar usuario",
             description = "Desactiva un usuario sin borrarlo. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('USUARIOS_GESTIONAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         usuarioService.desactivar(id);
         return ResponseEntity.noContent().build();
@@ -71,7 +71,7 @@ public class UsuarioController {
     @Operation(summary = "Resetear contraseña",
             description = "El administrador resetea la contraseña de cualquier usuario. Solo ADMINISTRADOR.")
     @PatchMapping("/{id}/reset-password")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('USUARIOS_GESTIONAR')")
     public ResponseEntity<Void> resetearPassword(
             @PathVariable UUID id,
             @RequestParam String nuevaPassword) {

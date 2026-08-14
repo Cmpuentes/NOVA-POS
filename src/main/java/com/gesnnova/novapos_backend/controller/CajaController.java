@@ -26,7 +26,7 @@ public class CajaController {
     @Operation(summary = "Listar cajas activas",
             description = "Devuelve todas las cajas activas. Solo ADMINISTRADOR.")
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CAJAS_GESTIONAR')")
     public ResponseEntity<List<CajaResponse>> listar() {
         return ResponseEntity.ok(cajaService.listarTodas());
     }
@@ -34,7 +34,7 @@ public class CajaController {
     @Operation(summary = "Buscar caja por ID",
             description = "Devuelve una caja específica por su UUID. Solo ADMINISTRADOR.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CAJAS_GESTIONAR')")
     public ResponseEntity<CajaResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(cajaService.buscarPorId(id));
     }
@@ -42,7 +42,7 @@ public class CajaController {
     @Operation(summary = "Crear caja",
             description = "Registra una nueva terminal POS. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CAJAS_GESTIONAR')")
     public ResponseEntity<CajaResponse> crear(
             @Valid @RequestBody CajaRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,7 +52,7 @@ public class CajaController {
     @Operation(summary = "Actualizar caja",
             description = "Actualiza los datos de una caja. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CAJAS_GESTIONAR')")
     public ResponseEntity<CajaResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody CajaRequest request) {
@@ -62,7 +62,7 @@ public class CajaController {
     @Operation(summary = "Desactivar caja",
             description = "Desactiva una caja sin borrarla. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CAJAS_GESTIONAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         cajaService.desactivar(id);
         return ResponseEntity.noContent().build();

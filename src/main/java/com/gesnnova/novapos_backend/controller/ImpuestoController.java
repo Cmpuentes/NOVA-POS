@@ -26,7 +26,7 @@ public class ImpuestoController {
     @Operation(summary = "Listar impuestos activos",
             description = "Devuelve todos los tipos de impuesto activos. Requiere token JWT.")
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('IMPUESTOS_GESTIONAR') or hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<List<ImpuestoResponse>> listar() {
         return ResponseEntity.ok(impuestoService.listarTodos());
     }
@@ -34,7 +34,7 @@ public class ImpuestoController {
     @Operation(summary = "Buscar impuesto por ID",
             description = "Devuelve un impuesto específico por su UUID.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('IMPUESTOS_GESTIONAR') or hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<ImpuestoResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(impuestoService.buscarPorId(id));
     }
@@ -42,7 +42,7 @@ public class ImpuestoController {
     @Operation(summary = "Crear impuesto",
             description = "Crea un nuevo tipo de impuesto. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('IMPUESTOS_GESTIONAR')")
     public ResponseEntity<ImpuestoResponse> crear(
             @Valid @RequestBody ImpuestoRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,7 +52,7 @@ public class ImpuestoController {
     @Operation(summary = "Actualizar impuesto",
             description = "Actualiza un tipo de impuesto existente. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('IMPUESTOS_GESTIONAR')")
     public ResponseEntity<ImpuestoResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody ImpuestoRequest request) {
@@ -62,7 +62,7 @@ public class ImpuestoController {
     @Operation(summary = "Desactivar impuesto",
             description = "Desactiva un tipo de impuesto sin borrarlo. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('IMPUESTOS_GESTIONAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         impuestoService.desactivar(id);
         return ResponseEntity.noContent().build();

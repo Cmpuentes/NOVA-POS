@@ -26,7 +26,7 @@ public class CategoriaController {
     @Operation(summary = "Listar categorías activas",
     description = "Devuelve todas las categorías activas. Requiere token JWT")
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CATEGORIAS_GESTIONAR') or hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<List<CategoriaResponse>> listar() {
         return ResponseEntity.ok(categoriaService.listarTodas());
     }
@@ -34,7 +34,7 @@ public class CategoriaController {
     @Operation(summary = "Buscar categoría por ID",
             description = "Devuelve una categoría específica por su UUID.")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'CAJERO')")
+    @PreAuthorize("hasAuthority('CATEGORIAS_GESTIONAR') or hasAuthority('PRODUCTOS_VER')")
     public ResponseEntity<CategoriaResponse> buscar(@PathVariable UUID id) {
         return ResponseEntity.ok(categoriaService.buscarPorId(id));
     }
@@ -42,7 +42,7 @@ public class CategoriaController {
     @Operation(summary = "Crear categoría",
             description = "Crea una nueva categoría. Solo ADMINISTRADOR.")
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CATEGORIAS_GESTIONAR')")
     public ResponseEntity<CategoriaResponse> crear(
             @Valid @RequestBody CategoriaRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,7 +52,7 @@ public class CategoriaController {
     @Operation(summary = "Actualizar categoría",
             description = "Actualiza nombre y descripción de una categoría. Solo ADMINISTRADOR.")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CATEGORIAS_GESTIONAR')")
     public ResponseEntity<CategoriaResponse> actualizar(
             @PathVariable UUID id,
             @Valid @RequestBody CategoriaRequest request) {
@@ -62,7 +62,7 @@ public class CategoriaController {
     @Operation(summary = "Desactivar categoría",
             description = "Desactiva una categoría sin borrarla. Solo ADMINISTRADOR.")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('CATEGORIAS_GESTIONAR')")
     public ResponseEntity<Void> desactivar(@PathVariable UUID id) {
         categoriaService.desactivar(id);
         return ResponseEntity.noContent().build();
